@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "ip-camera-dashboard",
-    "slug": "ip-camera-dashboard",
+    "name": "camera-ui-mvp",
+    "slug": "camera-ui-mvp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "ipcameradashboard",
+    "scheme": "camerauimvp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
