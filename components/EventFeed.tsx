@@ -76,37 +76,58 @@ const events = [
   },
 ];
 
-const timeHeaders = ['09', '10', '11', '12', '13', '14', '15'];
+
+
+const today = new Date();
+
+const timeHeaders = Array.from({ length: 7 }, (_, i) => {
+  const date = new Date(today);
+  date.setDate(today.getDate() + i);
+
+  const weekday = date.toLocaleDateString('en-US', { weekday: 'short' }); // ej: Mon, Tue
+  const day = date.getDate().toString().padStart(2, '0'); // ej: 05, 06
+
+  return { weekday, day };
+});
 
 export function EventFeed() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Feed</Text>
-         <TouchableOpacity style={styles.filterButton}>
-          <Ionicons name="filter" size={20} color="#666" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.moreButton}>
-          <Ionicons name="ellipsis-horizontal" size={20} color="#666" />
-        </TouchableOpacity>
-        <View style={styles.timeHeaders}>
-          {timeHeaders.map((hour) => (
-            <Text key={hour} style={styles.timeHeader}>{hour}</Text>
-          ))}
+        <View style={styles.headerTop}>
+          <Text style={styles.title}>Feed</Text>
+          <View style={styles.icons}>
+            <TouchableOpacity style={styles.iconButton}>
+              <Ionicons name="filter" size={20} color="#666" />
+            </TouchableOpacity>
+          <TouchableOpacity style={styles.iconButton}>
+            <Ionicons name="ellipsis-horizontal" size={20} color="#666" />
+          </TouchableOpacity>
+          </View>
         </View>
-      </View>
+
+  <View style={styles.timeHeaders}>
+    {timeHeaders.map(({ weekday, day }, index) => (
+    <View key={index} style={styles.dateColumn}>
+    <Text style={styles.weekday}>{weekday}</Text>
+    <Text style={styles.timeHeader}>{day}</Text>
+  </View>
+))}
+  </View>
+</View>
       
-      <ScrollView 
-        style={styles.eventsList}
-        showsVerticalScrollIndicator={false}
+      <ScrollView
+      style={styles.eventsList}
+      contentContainerStyle={styles.scrollContent}
+      showsVerticalScrollIndicator={true}
       >
         {events.map((event) => (
           <EventItem 
-            key={event.id}
-            event={event}
+          key={event.id}
+          event={event}
           />
-        ))}
-      </ScrollView>
+  ))}
+</ScrollView>
     </View>
   );
 }
@@ -143,6 +164,22 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   filterButton: {
+    padding: 8,
+  },
+  icons:{
+    flex: 1
+  },
+    headerTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  icons: {
+    flexDirection: 'row',
+    gap: 8, // si tu versión de RN no soporta `gap`, usa marginRight en cada botón
+  },
+  iconButton: {
     padding: 8,
   },
 });

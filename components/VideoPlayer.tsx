@@ -1,14 +1,31 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { AnimatedSegment } from "@/components/ui";
+import { TabProps, tabs } from "@/constants";
+
 
 export function VideoPlayer() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [currentTime, setCurrentTime] = useState('01:03');
   const [totalTime, setTotalTime] = useState('02:08');
+   const [activeTab, setActiveTab] = useState("all");
 
   return (
     <View style={styles.container}>
+      <AnimatedSegment<TabProps> 
+      items={tabs}
+      activeId={activeTab}
+      onChange={setActiveTab}
+      orientation="horizontal"
+      itemClassName="px-4 py-2 rounded-full"
+      itemsGapClassName="gap-3"
+      renderItem={(tab, isActive) => (
+      <Text className={`text-sm font-medium ${isActive ? "text-white" : "text-gray-600"}`}>
+        {tab.label}
+      </Text>
+      )}
+                    />
       <View style={styles.navigationButtons}>
         <TouchableOpacity style={styles.homeButton}>
           <Ionicons name="chevron-back" size={16} color="#666" />

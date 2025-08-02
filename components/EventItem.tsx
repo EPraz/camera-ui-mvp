@@ -66,8 +66,8 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   thumbnail: {
-    width: 48,
-    height: 36,
+    width: 140,
+    height: 70,
     borderRadius: 6,
     backgroundColor: '#ddd',
   },
