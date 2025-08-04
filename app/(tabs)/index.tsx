@@ -1,5 +1,5 @@
 // app/HomeScreen.tsx
-import { Header, Sidebar } from "@/components";
+import {  Sidebar } from "@/components";
 import { EventFeed } from "@/components/EventFeed";
 import { Timeline } from "@/components/TimeLine";
 import { VideoPlayer } from "@/components/VideoPlayer";
@@ -19,8 +19,8 @@ const HomeScreen: React.FC = () => {
   const mobileBottomPad = BASE_BOTTOM_BAR_HEIGHT + insets.bottom;
   return (
     <SafeAreaView className="flex-1">
-      <View className="flex-1 bg-gray-100 rounded-[12px]">
-        <Header />
+      <View className="flex-1 bg-white rounded-[12px]">
+    
         <View className="flex-1 flex-row">
           {/* Left sidebar only takes layout space on md+ */}
           {isExpanded && <Sidebar />}

@@ -134,16 +134,16 @@ export function EventFeed() {
 
 const styles = StyleSheet.create({
   container: {
-    width: 300,
+    width: 380,
     backgroundColor: '#ffffff',
     borderLeftWidth: 1,
-    borderLeftColor: '#e5e5e5',
+    borderLeftColor: 'white',
   },
   header: {
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#e5e5e5',
+    borderBottomColor: 'white',
   },
   title: {
     fontSize: 16,
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
   },
   icons: {
     flexDirection: 'row',
-    gap: 8, // si tu versión de RN no soporta `gap`, usa marginRight en cada botón
+    gap: 8, 
   },
   iconButton: {
     padding: 8,

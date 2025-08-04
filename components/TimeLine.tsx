@@ -73,7 +73,7 @@ export function Timeline() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#f3f4f6',
     borderTopWidth: 1,
     borderTopColor: 'transparent',
   },

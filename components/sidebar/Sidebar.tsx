@@ -7,22 +7,16 @@ import {
 import { useWindowSizeClass } from "@/hooks";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { AnimatedSegment } from "../ui"; // assumes ../ui/index exports AnimatedSegment
+import { AnimatedSegment } from "../ui";
 
-/**
- * Sidebar:
- * - Mobile: bottom bar (absolute fixed).
- * - Tablet/Desktop: left vertical rail.
- */
 const Sidebar: React.FC = () => {
   const [activeItem, setActiveItem] = useState<SidebarItemProps["id"]>("home");
   const { isExpanded } = useWindowSizeClass();
   const insets = useSafeAreaInsets();
 
   if (!isExpanded) {
-    // Mobile: render a bottom bar (absolute). Does not consume layout width.
     const barHeight = BASE_BOTTOM_BAR_HEIGHT + insets.bottom;
 
     return (
@@ -32,7 +26,6 @@ const Sidebar: React.FC = () => {
           bottom: 0,
           height: barHeight,
           paddingBottom: insets.bottom,
-          // Improve touchability & layering
           zIndex: 50,
           elevation: 8,
         }}
@@ -58,29 +51,42 @@ const Sidebar: React.FC = () => {
     );
   }
 
-  // Tablet/Desktop: left vertical sidebar (in-flow)
+  // Tablet/Desktop layout
   return (
-    <View className="w-[120px] bg-white py-4 items-center justify-between border-r border-transparent rounded-[12px]">
-      <AnimatedSegment<SidebarItemProps>
-        items={sidebarItems}
-        activeId={activeItem}
-        onChange={setActiveItem}
-        orientation="vertical"
-        containerClassName="mt-48"
-        itemsGapClassName="gap-7"
-        itemClassName="w-10 h-10 rounded-lg items-center justify-center"
-        renderItem={(item, isActive) => (
-          <Ionicons
-            name={item.icon}
-            size={20}
-            color={isActive ? "#ffffff" : "#666666"}
-          />
-        )}
-      />
+    <View className="w-[120px] bg-white py-4 border-r border-transparent rounded-[12px]">
+      {/* Título fijo en la parte superior */}
+      <View style={{ alignItems: 'center', paddingTop: 16 }}>
+        <Text
+          style={{
+            fontSize: 18,
+            fontWeight: "bold",
+            color: "#111",
+          }}
+        >
+          CamViewer
+        </Text>
+      </View>
 
-      {/* You can add a user/avatar button here if needed */}
-      {/* <View className="w-10 h-10 rounded-lg items-center justify-center" /> */}
+      {/* Contenedor para centrar el menú verticalmente */}
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <AnimatedSegment<SidebarItemProps>
+          items={sidebarItems}
+          activeId={activeItem}
+          onChange={setActiveItem}
+          orientation="vertical"
+          itemsGapClassName="gap-7"
+          itemClassName="w-10 h-10 rounded-lg items-center justify-center"
+          renderItem={(item, isActive) => (
+            <Ionicons
+              name={item.icon}
+              size={20}
+              color={isActive ? "#ffffff" : "#666666"}
+            />
+          )}
+        />
+      </View>
     </View>
   );
 };
+
 export default Sidebar;

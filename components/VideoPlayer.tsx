@@ -1,31 +1,60 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { AnimatedSegment } from "@/components/ui";
 import { TabProps, tabs } from "@/constants";
-
+import { Ionicons } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export function VideoPlayer() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [currentTime, setCurrentTime] = useState('01:03');
   const [totalTime, setTotalTime] = useState('02:08');
-   const [activeTab, setActiveTab] = useState("all");
+  const [activeTab, setActiveTab] = useState("all");
+  const [query, setQuery] = useState("");
+
+  const handleSearch = () => {
+    console.log("Searching:", query, "tab:", activeTab);
+  };
 
   return (
     <View style={styles.container}>
-      <AnimatedSegment<TabProps> 
-      items={tabs}
-      activeId={activeTab}
-      onChange={setActiveTab}
-      orientation="horizontal"
-      itemClassName="px-4 py-2 rounded-full"
-      itemsGapClassName="gap-3"
-      renderItem={(tab, isActive) => (
-      <Text className={`text-sm font-medium ${isActive ? "text-white" : "text-gray-600"}`}>
-        {tab.label}
-      </Text>
-      )}
-                    />
+      <View style={styles.topPart}>
+        <View style={styles.segmentContainer}>
+          <AnimatedSegment<TabProps>
+            items={tabs}
+            activeId={activeTab}
+            onChange={setActiveTab}
+            orientation="horizontal"
+            itemClassName="px-4 py-2 rounded-full"
+            itemsGapClassName="gap-3"
+            renderItem={(tab, isActive) => (
+              <Text className={`text-sm font-medium ${isActive ? "text-white" : "text-gray-600"}`}>
+                {tab.label}
+              </Text>
+            )}
+          />
+        </View>
+
+        <View style={styles.searchContainer}>
+          <TextInput
+            className="bg-gray-500 rounded-full px-4 py-2"
+            style={styles.searchInput}
+            value={query}
+            onChangeText={setQuery}
+            placeholder="Search events..."
+            placeholderTextColor="#6B7280"
+            returnKeyType="search"
+            onSubmitEditing={handleSearch}
+          />
+          <TouchableOpacity
+            style={styles.searchButton}
+            activeOpacity={0.85}
+            onPress={handleSearch}
+          >
+            <Text style={styles.searchButtonText}>Search</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
       <View style={styles.navigationButtons}>
         <TouchableOpacity style={styles.homeButton}>
           <Ionicons name="chevron-back" size={16} color="#666" />
@@ -36,13 +65,14 @@ export function VideoPlayer() {
           <Ionicons name="chevron-forward" size={16} color="#666" />
         </TouchableOpacity>
       </View>
+
       <View style={styles.videoContainer}>
         <Image
           source={{ uri: 'https://images.pexels.com/photos/280229/pexels-photo-280229.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop' }}
           style={styles.videoPlaceholder}
           resizeMode="cover"
         />
-        
+
         <View style={styles.overlayTop}>
           <View style={styles.cameraInfo}>
             <View style={styles.signalIndicator}>
@@ -100,6 +130,41 @@ export function VideoPlayer() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#f3f4f6"
+  },
+  topPart: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    gap: 12,
+  },
+  segmentContainer: {
+    flex: 1,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  searchInput: {
+    width: 200,
+    marginRight: 8,
+    backgroundColor: '#FFF',
+    borderWidth: 0.5,
+    borderColor: 'black',
+  },
+  searchButton: {
+    backgroundColor: '#000',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+  },
+  searchButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '500',
   },
   navigationButtons: {
     flexDirection: 'row',
@@ -107,16 +172,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: 'transparent',
-    borderBottomWidth: 1,
-    borderBottomColor: 'transparent',
-    borderRadius: 12
+    borderRadius: 12,
   },
   homeButton: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: 'transparent',
   },
   homeButtonText: {
     fontSize: 14,
@@ -136,8 +197,9 @@ const styles = StyleSheet.create({
   videoContainer: {
     flex: 1,
     position: 'relative',
-    borderRadius: 12,
+    borderRadius: 20,
     overflow: 'hidden',
+    margin: 12,
   },
   videoPlaceholder: {
     width: '100%',
@@ -153,7 +215,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     padding: 16,
-    backgroundColor: 'transparent',
   },
   cameraInfo: {
     flex: 1,
@@ -187,7 +248,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 16,
-    backgroundColor: 'linear-gradient(0deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%)',
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   playbackControls: {
     flexDirection: 'row',

@@ -26,40 +26,79 @@ export function EventItem({ event }: EventItemProps) {
   };
 
   return (
-    <TouchableOpacity style={styles.container}>
-      <View style={styles.thumbnailContainer}>
-        <Image 
-          source={{ uri: event.thumbnail }}
-          style={styles.thumbnail}
-          resizeMode="cover"
-        />
-        <View style={styles.playOverlay}>
-          <Ionicons name="play" size={16} color="#ffffff" />
+    <View style={styles.wrapper}>
+      {/* Timeline column */}
+      <View style={styles.timelineContainer}>
+        <View style={styles.timelineLine} />
+        <View style={styles.timelineDot} />
+      </View>
+
+      {/* Event content */}
+      <TouchableOpacity style={styles.container}>
+        <View style={styles.thumbnailContainer}>
+          <Image 
+            source={{ uri: event.thumbnail }}
+            style={styles.thumbnail}
+            resizeMode="cover"
+          />
+          <View style={styles.playOverlay}>
+            <Ionicons name="play" size={16} color="#ffffff" />
+          </View>
+          <View 
+            style={[
+              styles.eventIndicator,
+              { backgroundColor: getEventTypeColor(event.type) }
+            ]} 
+          />
         </View>
-        <View 
-          style={[
-            styles.eventIndicator,
-            { backgroundColor: getEventTypeColor(event.type) }
-          ]} 
-        />
-      </View>
-      
-      <View style={styles.eventInfo}>
-        <Text style={styles.cameraName}>{event.camera}</Text>
-        <Text style={styles.eventTime}>{event.time}</Text>
-      </View>
-    </TouchableOpacity>
+        
+        <View style={styles.eventInfo}>
+          <Text style={styles.cameraName}>{event.camera}</Text>
+          <Text style={styles.eventTime}>{event.time}</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'relative',
+    minHeight: 90,
+    backgroundColor: 'transparent',
+  },
+  timelineContainer: {
+    width: 24,
+    alignItems: 'center',
+    position: 'relative',
+    justifyContent: 'center',
+    height: '100%',
+  },
+  timelineLine: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    width: 2,
+    backgroundColor: '#D3D3D3',
+    left: 11, // center line (24/2 - 1)
+  },
+  timelineDot: {
+    width: 4,
+    height: 4,
+    borderRadius: 4,
+    backgroundColor: '#333',
+    zIndex: 2,
+  },
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingVertical: 16,
+    paddingRight: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: '#eee',
+    flex: 1,
   },
   thumbnailContainer: {
     position: 'relative',
@@ -86,9 +125,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -2,
     right: -2,
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: 6,
+    height: 6,
+    borderRadius: 3,
     borderWidth: 2,
     borderColor: '#ffffff',
   },
