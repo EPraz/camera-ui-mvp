@@ -1,13 +1,20 @@
 import { AnimatedSegment } from "@/components/ui";
 import { TabProps, tabs } from "@/constants";
-import { Ionicons } from '@expo/vector-icons';
-import React, { useState } from 'react';
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Ionicons } from "@expo/vector-icons";
+import React, { useState } from "react";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export function VideoPlayer() {
   const [isPlaying, setIsPlaying] = useState(true);
-  const [currentTime, setCurrentTime] = useState('01:03');
-  const [totalTime, setTotalTime] = useState('02:08');
+  const [currentTime, setCurrentTime] = useState("01:03");
+  const [totalTime, setTotalTime] = useState("02:08");
   const [activeTab, setActiveTab] = useState("all");
   const [query, setQuery] = useState("");
 
@@ -17,7 +24,7 @@ export function VideoPlayer() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.topPart}>
+      <View style={styles.topPart} className="md:flex hidden">
         <View style={styles.segmentContainer}>
           <AnimatedSegment<TabProps>
             items={tabs}
@@ -27,7 +34,9 @@ export function VideoPlayer() {
             itemClassName="px-4 py-2 rounded-full"
             itemsGapClassName="gap-3"
             renderItem={(tab, isActive) => (
-              <Text className={`text-sm font-medium ${isActive ? "text-white" : "text-gray-600"}`}>
+              <Text
+                className={`text-sm font-medium ${isActive ? "text-white" : "text-gray-600"}`}
+              >
                 {tab.label}
               </Text>
             )}
@@ -68,7 +77,9 @@ export function VideoPlayer() {
 
       <View style={styles.videoContainer}>
         <Image
-          source={{ uri: 'https://images.pexels.com/photos/280229/pexels-photo-280229.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop' }}
+          source={{
+            uri: "https://images.pexels.com/photos/280229/pexels-photo-280229.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+          }}
           style={styles.videoPlaceholder}
           resizeMode="cover"
         />
@@ -79,7 +90,7 @@ export function VideoPlayer() {
               <Ionicons name="wifi" size={16} color="#ffffff" />
             </View>
             <Text style={styles.cameraName}>Front Door Camera 2</Text>
-            <Text style={styles.dateTime}>15-05-2024   10:56 AM</Text>
+            <Text style={styles.dateTime}>15-05-2024 10:56 AM</Text>
           </View>
           <View style={styles.topRightControls}>
             <TouchableOpacity style={styles.controlButton}>
@@ -96,11 +107,13 @@ export function VideoPlayer() {
             <TouchableOpacity style={styles.controlButton}>
               <Ionicons name="volume-high" size={20} color="#ffffff" />
             </TouchableOpacity>
-            <Text style={styles.timeText}>{currentTime}/{totalTime}</Text>
+            <Text style={styles.timeText}>
+              {currentTime}/{totalTime}
+            </Text>
             <TouchableOpacity style={styles.controlButton}>
               <Ionicons name="play-skip-back" size={20} color="#ffffff" />
             </TouchableOpacity>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.playButton}
               onPress={() => setIsPlaying(!isPlaying)}
             >
@@ -130,12 +143,12 @@ export function VideoPlayer() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f3f4f6"
+    backgroundColor: "#f3f4f6",
   },
   topPart: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 12,
     gap: 12,
@@ -144,144 +157,144 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 8,
   },
   searchInput: {
     width: 200,
     marginRight: 8,
-    backgroundColor: '#FFF',
+    backgroundColor: "#FFF",
     borderWidth: 0.5,
-    borderColor: 'black',
+    borderColor: "black",
   },
   searchButton: {
-    backgroundColor: '#000',
+    backgroundColor: "#000",
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 20,
   },
   searchButtonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   navigationButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderRadius: 12,
   },
   homeButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 4,
   },
   homeButtonText: {
     fontSize: 14,
-    color: '#666',
-    fontWeight: '500',
+    color: "#666",
+    fontWeight: "500",
   },
   nextDeviceButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 4,
   },
   nextDeviceButtonText: {
     fontSize: 14,
-    color: '#666',
-    fontWeight: '500',
+    color: "#666",
+    fontWeight: "500",
   },
   videoContainer: {
     flex: 1,
-    position: 'relative',
+    position: "relative",
     borderRadius: 20,
-    overflow: 'hidden',
+    overflow: "hidden",
     margin: 12,
   },
   videoPlaceholder: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#000',
+    width: "100%",
+    height: "100%",
+    backgroundColor: "#000",
   },
   overlayTop: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
     padding: 16,
   },
   cameraInfo: {
     flex: 1,
   },
   signalIndicator: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 4,
   },
   cameraName: {
-    color: '#ffffff',
+    color: "#ffffff",
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
     marginBottom: 2,
   },
   dateTime: {
-    color: '#ffffff',
+    color: "#ffffff",
     fontSize: 12,
     opacity: 0.8,
   },
   topRightControls: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 8,
   },
   overlayBottom: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 16,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: "rgba(0,0,0,0.5)",
   },
   playbackControls: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 12,
   },
   controlButton: {
     padding: 8,
   },
   playButton: {
-    backgroundColor: 'rgba(255,255,255,0.2)',
+    backgroundColor: "rgba(255,255,255,0.2)",
     borderRadius: 20,
     padding: 8,
   },
   timeText: {
-    color: '#ffffff',
+    color: "#ffffff",
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   liveIndicator: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 6,
   },
   liveDot: {
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#ff4444',
+    backgroundColor: "#ff4444",
   },
   liveText: {
-    color: '#ffffff',
+    color: "#ffffff",
     fontSize: 12,
-    fontWeight: '500',
+    fontWeight: "500",
   },
 });

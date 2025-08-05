@@ -1,4 +1,3 @@
-// components/Header.tsx
 import { TabProps, tabs } from "@/constants";
 import { useWindowSizeClass } from "@/hooks";
 import React, { useState } from "react";
@@ -15,11 +14,11 @@ const Header: React.FC = () => {
   };
 
   return (
-    <View className="bg-white border-b border-gray-200">
-      <View className="w-full px-4 py-3">
+    <View className="bg-white border-b border-gray-200 md:hidden ">
+      <View className="w-full px-4 py-3 ">
         {isExpanded ? (
           // Expanded (>=1024): single row, search pinned right
-          <View className="w-full flex-row items-center justify-between">
+          <View className="w-full flex-row items-center justify-between hidden">
             {/* Left: Logo + inline tabs (flex-1 to keep search visible) */}
             <View className="flex-1 flex-row items-center">
               <Text className="text-2xl font-bold text-black mr-8">
