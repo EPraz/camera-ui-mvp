@@ -67,6 +67,7 @@ const Header: React.FC = () => {
           </View>
         ) : (
           // Compact/Medium (<1024): stacked layout
+          // only one showing // change to mobile design name
           <View className="w-full flex-col gap-3">
             {/* Logo */}
             <Text className="text-xl font-bold text-black">Camera Viewer</Text>

@@ -1,10 +1,10 @@
-import { Header, Sidebar } from "@/components";
+import { BottomNavigationBar, Header, Sidebar } from "@/components";
 import { EventFeed } from "@/components/EventFeed";
 import { Timeline } from "@/components/TimeLine";
 import { VideoPlayer } from "@/components/VideoPlayer";
-import { BASE_BOTTOM_BAR_HEIGHT } from "@/constants";
+import { BASE_BOTTOM_BAR_HEIGHT, EventItemProps, events } from "@/constants";
 import { useWindowSizeClass } from "@/hooks";
-import React from "react";
+import React, { useState } from "react";
 import { View } from "react-native";
 import {
   SafeAreaView,
@@ -14,8 +14,14 @@ import {
 const HomeScreen: React.FC = () => {
   const { isExpanded } = useWindowSizeClass();
   const insets = useSafeAreaInsets();
-
   const mobileBottomPad = BASE_BOTTOM_BAR_HEIGHT + insets.bottom;
+
+  const [selectedEvent, setSelectedEvent] = useState<EventItemProps>(events[0]);
+
+  const handleSelectedEvent = (item: EventItemProps) => {
+    setSelectedEvent(item);
+  };
+
   return (
     <SafeAreaView className="flex-1">
       <View className="flex-1 bg-white rounded-[12px]">
@@ -34,18 +40,23 @@ const HomeScreen: React.FC = () => {
               className="flex-1 bg-white rounded-[12px] overflow-hidden shadow-md"
               style={{ elevation: 4 }}
             >
-              <VideoPlayer />
+              <VideoPlayer selectedEvent={selectedEvent} />
               <Timeline />
             </View>
           </View>
 
           {/* Event feed (you may decide to hide this on small screens if needed) */}
-          {isExpanded && <EventFeed />}
+          {isExpanded && (
+            <EventFeed
+              handleSelectedEvent={handleSelectedEvent}
+              selectedEventId={selectedEvent.id}
+            />
+          )}
         </View>
       </View>
 
       {/* Mobile bottom bar is absolutely positioned; render Sidebar here too */}
-      {!isExpanded && <Sidebar />}
+      {!isExpanded && <BottomNavigationBar />}
     </SafeAreaView>
   );
 };
