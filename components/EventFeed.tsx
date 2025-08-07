@@ -14,27 +14,38 @@ const timeHeaders = Array.from({ length: 7 }, (_, i) => {
   return { weekday, day };
 });
 
+// --- CAMBIO 1: Agrega 'onClose' a las props ---
+// Esta es la función que cerrará el panel del menú.
 type EventFeedProps = {
   handleSelectedEvent: (item: EventItemProps) => void;
   selectedEventId: string;
+  onClose: () => void; // Prop para recibir la función de cierre
 };
 
 export function EventFeed({
   handleSelectedEvent,
   selectedEventId,
+  onClose, // Recibe la prop aquí
 }: EventFeedProps) {
   return (
-    <View className="w-[380px] bg-white border-l border-white">
+    // He quitado el ancho fijo y los bordes, ya que el panel contenedor se encarga de eso.
+    <View className="flex-1 bg-white"> 
       {/* Header */}
-      <View className="px-4 py-3 border-b border-white">
+      <View className="px-4 py-3 border-b border-gray-200">
         <View className="flex-row justify-between items-center mb-3">
           <Text className="text-base font-semibold text-black">Feed</Text>
-          <View className="flex-row gap-2">
+          <View className="flex-row items-center gap-2">
             <TouchableOpacity className="p-2">
               <Ionicons name="filter" size={20} color="#666" />
             </TouchableOpacity>
             <TouchableOpacity className="p-2">
               <Ionicons name="ellipsis-horizontal" size={20} color="#666" />
+            </TouchableOpacity>
+
+            {/* --- CAMBIO 2: Agrega el botón 'X' --- */}
+            {/* Su 'onPress' llama a la función que recibimos por props. */}
+            <TouchableOpacity onPress={onClose} className="p-2">
+              <Ionicons name="close" size={24} color="#666" />
             </TouchableOpacity>
           </View>
         </View>

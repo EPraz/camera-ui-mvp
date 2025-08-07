@@ -1,91 +1,77 @@
-import { TabProps, tabs } from "@/constants";
-import { useWindowDimensions } from "react-native";
-import React, { useState } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
-import { AnimatedSegment } from "../ui";
+import {
+  useWindowDimensions,
+  Modal,
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Animated,
+  ScrollView,
+} from "react-native";
+import React, { useState, useRef, useEffect } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { EventFeed } from "@/components/EventFeed";
+
+const MENU_WIDTH = 360;
 
 const Header: React.FC = () => {
-  const [activeTab, setActiveTab] = useState("all");
-  const [query, setQuery] = useState("");
-
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selectedEventId, setSelectedEventId] = useState("");
   const { width } = useWindowDimensions();
   const isExpanded = width >= 1024;
-  const isMedium = width >= 768 && width < 1024;
+  const slideAnim = useRef(new Animated.Value(MENU_WIDTH)).current;
 
-  const handleSearch = () => {
-    console.log("Searching:", query, "tab:", activeTab);
-  };
+  useEffect(() => {
+    const finalPosition = isMenuOpen ? 0 : MENU_WIDTH;
+    Animated.timing(slideAnim, {
+      toValue: finalPosition,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }, [isMenuOpen]);
 
-  
+  const toggleMenu = () => setIsMenuOpen(prev => !prev);
+  const handleSelectedEvent = (item: any) => { /* Tu lógica aquí */ };
+
   if (isExpanded) return null;
 
   return (
-    <View className="bg-white border-b border-gray-200">
-      <View className="w-full px-4 py-3">
-        {isMedium ? (
-          <View className="flex-row items-center justify-between">
-            <Text className="text-xl font-bold text-black">Camera Viewer</Text>
-            <TouchableOpacity onPress={() => console.log("Open menu")}>
-              <Ionicons name="menu" size={24} color="black" />
-            </TouchableOpacity>
-          </View>
-        ) : (
-          
-          <View className="w-full flex-col gap-3">
-            {/* Título + icono */}
-            <View className="flex-row items-center justify-between">
-              <Text className="text-xl font-bold text-black">Camera Viewer</Text>
-              <TouchableOpacity onPress={() => console.log("Open menu")}>
-                <Ionicons name="menu" size={24} color="black" />
-              </TouchableOpacity>
-            </View>
-
-            {/* Tabs */}
-            <AnimatedSegment<TabProps>
-              items={tabs}
-              activeId={activeTab}
-              onChange={setActiveTab}
-              orientation="horizontal"
-              scrollable
-              containerClassName="-mx-4 px-4"
-              itemClassName="px-4 py-2 rounded-full"
-              itemsGapClassName="gap-2"
-              renderItem={(tab, isActive) => (
-                <Text
-                  className={`text-sm font-medium ${
-                    isActive ? "text-white" : "text-gray-600"
-                  }`}
-                >
-                  {tab.label}
-                </Text>
-              )}
-            />
-
-            {/* Search */}
-            <View className="flex-row items-center">
-              <TextInput
-                className="flex-1 bg-gray-100 rounded-full px-4 py-2 mr-2"
-                value={query}
-                onChangeText={setQuery}
-                placeholder="Search events..."
-                placeholderTextColor="#9CA3AF"
-                returnKeyType="search"
-                onSubmitEditing={handleSearch}
-              />
-              <TouchableOpacity
-                className="px-3 py-2 rounded-full bg-black"
-                activeOpacity={0.85}
-                onPress={handleSearch}
-              >
-                <Text className="text-white text-sm font-medium">Search</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        )}
+    <>
+      <View style={styles.headerBar}>
+        <Text style={styles.headerTitle}>Camera Viewer</Text>
+        <TouchableOpacity onPress={toggleMenu} style={styles.headerButton}>
+          <Ionicons name={isMenuOpen ? "close" : "menu"} size={30} color="black" />
+        </TouchableOpacity>
       </View>
-    </View>
+
+      <Modal transparent={true} visible={isMenuOpen} onRequestClose={toggleMenu} animationType="fade">
+        <View style={styles.modalContainer}>
+          <TouchableOpacity style={styles.overlay} activeOpacity={1} onPressOut={toggleMenu} />
+          <Animated.View style={[styles.menuPanel, { width: MENU_WIDTH, transform: [{ translateX: slideAnim }] }]}>
+            {/*
+              Ahora el panel solo contiene EventFeed.
+              Le pasamos la función `toggleMenu` a través de la prop `onClose`.
+            */}
+            <EventFeed
+              handleSelectedEvent={handleSelectedEvent}
+              selectedEventId={selectedEventId}
+              onClose={toggleMenu} // <--- ¡MUY IMPORTANTE!
+            />
+          </Animated.View>
+        </View>
+      </Modal>
+    </>
   );
 };
+
+// --- Estilos (sin el panelHeader duplicado) ---
+const styles = StyleSheet.create({
+  headerBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 12, backgroundColor: 'white', borderBottomWidth: 1, borderBottomColor: '#e5e7eb' },
+  headerTitle: { fontSize: 20, fontWeight: 'bold', color: 'black' },
+  headerButton: { padding: 8 },
+  modalContainer: { flex: 1 },
+  overlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0, 0, 0, 0.5)' },
+  menuPanel: { position: 'absolute', top: 0, bottom: 0, right: 0, backgroundColor: 'white', shadowColor: "#000", shadowOffset: { width: -2, height: 0 }, shadowOpacity: 0.15, shadowRadius: 10, elevation: 10 },
+});
 
 export default Header;
