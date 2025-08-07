@@ -1,7 +1,6 @@
 import { EventItemProps, events } from "@/constants";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-// --- CAMBIO 1: Importa 'useWindowDimensions' ---
 import { ScrollView, Text, TouchableOpacity, View, useWindowDimensions } from "react-native";
 import { EventItem } from "./EventItem";
 
@@ -27,7 +26,7 @@ export function EventFeed({
   selectedEventId,
   onClose,
 }: EventFeedProps) {
-  // --- CAMBIO 2: Obtén el ancho de la pantalla ---
+ 
   const { width } = useWindowDimensions();
 
   return (
@@ -44,7 +43,7 @@ export function EventFeed({
               <Ionicons name="ellipsis-horizontal" size={20} color="#666" />
             </TouchableOpacity>
 
-            {/* --- CAMBIO 3: Muestra la 'X' solo si el ancho es menor a 1024 --- */}
+           
             {width < 1024 && (
               <TouchableOpacity onPress={onClose} className="p-2">
                 <Ionicons name="close" size={24} color="#666" />
