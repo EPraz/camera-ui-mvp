@@ -1,7 +1,8 @@
 import { EventItemProps, events } from "@/constants";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+// --- CAMBIO 1: Importa 'useWindowDimensions' ---
+import { ScrollView, Text, TouchableOpacity, View, useWindowDimensions } from "react-native";
 import { EventItem } from "./EventItem";
 
 const today = new Date();
@@ -18,19 +19,21 @@ const timeHeaders = Array.from({ length: 7 }, (_, i) => {
 type EventFeedProps = {
   handleSelectedEvent: (item: EventItemProps) => void;
   selectedEventId: string;
-  onClose: () => void; 
+  onClose: () => void;
 };
 
 export function EventFeed({
   handleSelectedEvent,
   selectedEventId,
-  onClose, 
+  onClose,
 }: EventFeedProps) {
+  // --- CAMBIO 2: Obtén el ancho de la pantalla ---
+  const { width } = useWindowDimensions();
+
   return (
-  
-    <View className="flex-1 bg-white"> 
+    <View className="bg-white">
       {/* Header */}
-      <View className="px-4 py-3 border-b border-gray-200">
+      <View className="px-4 py-3">
         <View className="flex-row justify-between items-center mb-3">
           <Text className="text-base font-semibold text-black">Feed</Text>
           <View className="flex-row items-center gap-2">
@@ -41,10 +44,12 @@ export function EventFeed({
               <Ionicons name="ellipsis-horizontal" size={20} color="#666" />
             </TouchableOpacity>
 
-          
-            <TouchableOpacity onPress={onClose} className="p-2">
-              <Ionicons name="close" size={24} color="#666" />
-            </TouchableOpacity>
+            {/* --- CAMBIO 3: Muestra la 'X' solo si el ancho es menor a 1024 --- */}
+            {width < 1024 && (
+              <TouchableOpacity onPress={onClose} className="p-2">
+                <Ionicons name="close" size={24} color="#666" />
+              </TouchableOpacity>
+            )}
           </View>
         </View>
 
