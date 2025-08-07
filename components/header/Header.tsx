@@ -1,13 +1,4 @@
-import {
-  useWindowDimensions,
-  Modal,
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  Animated,
-  ScrollView,
-} from "react-native";
+import {useWindowDimensions,Modal,StyleSheet,View,Text,TouchableOpacity,Animated,ScrollView,} from "react-native";
 import React, { useState, useRef, useEffect } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { EventFeed } from "@/components/EventFeed";
@@ -31,8 +22,8 @@ const Header: React.FC = () => {
   }, [isMenuOpen]);
 
   const toggleMenu = () => setIsMenuOpen(prev => !prev);
-  const handleSelectedEvent = (item: any) => { /* Tu lógica aquí */ };
-
+  const handleSelectedEvent = (item: any) => {
+    setSelectedEventId(item.id);console.log("Selected event:", item);};
   if (isExpanded) return null;
 
   return (
@@ -48,14 +39,10 @@ const Header: React.FC = () => {
         <View style={styles.modalContainer}>
           <TouchableOpacity style={styles.overlay} activeOpacity={1} onPressOut={toggleMenu} />
           <Animated.View style={[styles.menuPanel, { width: MENU_WIDTH, transform: [{ translateX: slideAnim }] }]}>
-            {/*
-              Ahora el panel solo contiene EventFeed.
-              Le pasamos la función `toggleMenu` a través de la prop `onClose`.
-            */}
             <EventFeed
               handleSelectedEvent={handleSelectedEvent}
               selectedEventId={selectedEventId}
-              onClose={toggleMenu} // <--- ¡MUY IMPORTANTE!
+              onClose={toggleMenu} 
             />
           </Animated.View>
         </View>
@@ -64,7 +51,7 @@ const Header: React.FC = () => {
   );
 };
 
-// --- Estilos (sin el panelHeader duplicado) ---
+
 const styles = StyleSheet.create({
   headerBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 12, backgroundColor: 'white', borderBottomWidth: 1, borderBottomColor: '#e5e7eb' },
   headerTitle: { fontSize: 20, fontWeight: 'bold', color: 'black' },
