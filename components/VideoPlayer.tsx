@@ -2,14 +2,7 @@ import { AnimatedSegment } from "@/components/ui";
 import { TabProps, tabs } from "@/constants";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import {Image,StyleSheet,Text,TextInput,TouchableOpacity,View,} from "react-native";
 
 export function VideoPlayer() {
   const [isPlaying, setIsPlaying] = useState(true);

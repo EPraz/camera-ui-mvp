@@ -30,14 +30,14 @@ const Sidebar: React.FC = () => {
           elevation: 8,
         }}
       >
-        <View className="flex-1 items-center justify-center px-4">
+        <View className="flex-1 items-center justify-center px-4 ">
           <AnimatedSegment<SidebarItemProps>
             items={sidebarItems}
             activeId={activeItem}
             onChange={setActiveItem}
             orientation="horizontal"
             itemsGapClassName="gap-6"
-            itemClassName="w-10 h-10 rounded-lg items-center justify-center"
+            itemClassName="w-10 h-10 rounded-lg items-center justify-center "
             renderItem={(item, isActive) => (
               <Ionicons
                 name={item.icon}
