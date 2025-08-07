@@ -17,14 +17,13 @@ const Header: React.FC = () => {
     console.log("Searching:", query, "tab:", activeTab);
   };
 
-  // 👉 Si es expandido, no renderizar el header
+  
   if (isExpanded) return null;
 
   return (
     <View className="bg-white border-b border-gray-200">
       <View className="w-full px-4 py-3">
         {isMedium ? (
-          // Medium (768–1023): solo título y botón de menú
           <View className="flex-row items-center justify-between">
             <Text className="text-xl font-bold text-black">Camera Viewer</Text>
             <TouchableOpacity onPress={() => console.log("Open menu")}>
@@ -32,7 +31,7 @@ const Header: React.FC = () => {
             </TouchableOpacity>
           </View>
         ) : (
-          // Compact (<768): layout apilado
+          
           <View className="w-full flex-col gap-3">
             {/* Título + icono */}
             <View className="flex-row items-center justify-between">

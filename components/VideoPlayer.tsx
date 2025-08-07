@@ -1,10 +1,15 @@
 import { AnimatedSegment } from "@/components/ui";
-import { TabProps, tabs } from "@/constants";
+import { EventItemProps, TabProps, tabs } from "@/constants";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {Image,StyleSheet,Text,TextInput,TouchableOpacity,View,} from "react-native";
 
-export function VideoPlayer() {
+
+type VideoPlayerProps = {
+  selectedEvent: EventItemProps;
+};
+
+export function VideoPlayer({ selectedEvent }: VideoPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(true);
   const [currentTime, setCurrentTime] = useState("01:03");
   const [totalTime, setTotalTime] = useState("02:08");
@@ -16,9 +21,10 @@ export function VideoPlayer() {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.topPart} className="md:flex hidden">
-        <View style={styles.segmentContainer}>
+    <View className="flex-1 bg-gray-100">
+      {/* Top Bar (Desktop only) */}
+      <View className="hidden md:flex flex-col xl:flex-row xl:justify-between xl:items-center px-4 py-3 gap-3 ">
+        <View className="flex-1">
           <AnimatedSegment<TabProps>
             items={tabs}
             activeId={activeTab}
@@ -36,10 +42,9 @@ export function VideoPlayer() {
           />
         </View>
 
-        <View style={styles.searchContainer}>
+        <View className="flex-row items-center gap-2">
           <TextInput
-            className="bg-gray-500 rounded-full px-4 py-2"
-            style={styles.searchInput}
+            className="flex-1 bg-white rounded-full px-4 py-2 mr-2 outline-none focus:border-transparent focus:ring-0"
             value={query}
             onChangeText={setQuery}
             placeholder="Search events..."
@@ -48,246 +53,97 @@ export function VideoPlayer() {
             onSubmitEditing={handleSearch}
           />
           <TouchableOpacity
-            style={styles.searchButton}
-            activeOpacity={0.85}
             onPress={handleSearch}
+            activeOpacity={0.85}
+            className="bg-black px-4 py-2 rounded-full"
           >
-            <Text style={styles.searchButtonText}>Search</Text>
+            <Text className="text-white text-sm font-medium">Search</Text>
           </TouchableOpacity>
         </View>
       </View>
 
-      <View style={styles.navigationButtons}>
-        <TouchableOpacity style={styles.homeButton}>
+      {/* Navigation buttons */}
+      <View className="flex-row justify-between items-center px-4 py-3 rounded-xl">
+        <TouchableOpacity className="flex-row items-center gap-1">
           <Ionicons name="chevron-back" size={16} color="#666" />
-          <Text style={styles.homeButtonText}>Home</Text>
+          <Text className="text-sm text-gray-600 font-medium">Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.nextDeviceButton}>
-          <Text style={styles.nextDeviceButtonText}>Next Device</Text>
+        <TouchableOpacity className="flex-row items-center gap-1">
+          <Text className="text-sm text-gray-600 font-medium">Next Device</Text>
           <Ionicons name="chevron-forward" size={16} color="#666" />
         </TouchableOpacity>
       </View>
 
-      <View style={styles.videoContainer}>
+      {/* Video Player container */}
+      <View className="flex-1 relative rounded-2xl overflow-hidden mx-3 my-3">
         <Image
           source={{
-            uri: "https://images.pexels.com/photos/280229/pexels-photo-280229.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+            uri: selectedEvent.thumbnail,
           }}
-          style={styles.videoPlaceholder}
-          resizeMode="cover"
+          className="w-full h-full bg-black"
+          resizeMode="contain"
         />
 
-        <View style={styles.overlayTop}>
-          <View style={styles.cameraInfo}>
-            <View style={styles.signalIndicator}>
-              <Ionicons name="wifi" size={16} color="#ffffff" />
+        {/* Overlay Top */}
+        <View className="absolute top-0 left-0 right-0 flex-row justify-between items-start p-4">
+          <View className="flex-1">
+            <View className="flex-row items-center mb-1">
+              <Ionicons name="wifi" size={16} color="#fff" />
             </View>
-            <Text style={styles.cameraName}>Front Door Camera 2</Text>
-            <Text style={styles.dateTime}>15-05-2024 10:56 AM</Text>
+            <Text className="text-white text-base font-semibold mb-1">
+              {selectedEvent.camera}
+            </Text>
+            <Text className="text-white text-xs opacity-80">
+              {selectedEvent.time}
+            </Text>
           </View>
-          <View style={styles.topRightControls}>
-            <TouchableOpacity style={styles.controlButton}>
-              <Ionicons name="calendar" size={20} color="#ffffff" />
+
+          <View className="flex-row gap-2">
+            <TouchableOpacity className="p-2">
+              <Ionicons name="calendar" size={20} color="#fff" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.controlButton}>
-              <Ionicons name="expand" size={20} color="#ffffff" />
+            <TouchableOpacity className="p-2">
+              <Ionicons name="expand" size={20} color="#fff" />
             </TouchableOpacity>
           </View>
         </View>
 
-        <View style={styles.overlayBottom}>
-          <View style={styles.playbackControls}>
-            <TouchableOpacity style={styles.controlButton}>
-              <Ionicons name="volume-high" size={20} color="#ffffff" />
+        {/* Overlay Bottom */}
+        <View className="absolute bottom-0 left-0 right-0 bg-black/50 flex-row flex-1 justify-between items-center p-4">
+          <View className="flex-1 flex-row items-center justify-center md:gap-12 gap-4">
+            <TouchableOpacity className="p-2">
+              <Ionicons name="volume-high" size={20} color="#fff" />
             </TouchableOpacity>
-            <Text style={styles.timeText}>
+            <Text className="text-white text-sm font-medium">
               {currentTime}/{totalTime}
             </Text>
-            <TouchableOpacity style={styles.controlButton}>
-              <Ionicons name="play-skip-back" size={20} color="#ffffff" />
+            <TouchableOpacity className="p-2">
+              <Ionicons name="play-skip-back" size={20} color="#fff" />
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.playButton}
+              className="bg-white/20 p-2 rounded-full"
               onPress={() => setIsPlaying(!isPlaying)}
             >
-              {isPlaying ? (
-                <Ionicons name="pause" size={24} color="#ffffff" />
-              ) : (
-                <Ionicons name="play" size={24} color="#ffffff" />
-              )}
+              <Ionicons
+                name={isPlaying ? "pause" : "play"}
+                size={24}
+                color="#fff"
+              />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.controlButton}>
-              <Ionicons name="play-skip-forward" size={20} color="#ffffff" />
+            <TouchableOpacity className="p-2">
+              <Ionicons name="play-skip-forward" size={20} color="#fff" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.controlButton}>
-              <Ionicons name="refresh" size={20} color="#ffffff" />
+            <TouchableOpacity className="p-2">
+              <Ionicons name="refresh" size={20} color="#fff" />
             </TouchableOpacity>
           </View>
-          <View style={styles.liveIndicator}>
-            <View style={styles.liveDot} />
-            <Text style={styles.liveText}>Live Video</Text>
+
+          <View className="flex-row items-center gap-2 hidden md:flex">
+            <View className="w-2 h-2 rounded-full bg-red-500" />
+            <Text className="text-white text-xs font-medium">Live Video</Text>
           </View>
         </View>
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f3f4f6",
-  },
-  topPart: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    gap: 12,
-  },
-  segmentContainer: {
-    flex: 1,
-  },
-  searchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  searchInput: {
-    width: 200,
-    marginRight: 8,
-    backgroundColor: "#FFF",
-    borderWidth: 0.5,
-    borderColor: "black",
-  },
-  searchButton: {
-    backgroundColor: "#000",
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 20,
-  },
-  searchButtonText: {
-    color: "#fff",
-    fontSize: 14,
-    fontWeight: "500",
-  },
-  navigationButtons: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderRadius: 12,
-  },
-  homeButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 4,
-  },
-  homeButtonText: {
-    fontSize: 14,
-    color: "#666",
-    fontWeight: "500",
-  },
-  nextDeviceButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 4,
-  },
-  nextDeviceButtonText: {
-    fontSize: 14,
-    color: "#666",
-    fontWeight: "500",
-  },
-  videoContainer: {
-    flex: 1,
-    position: "relative",
-    borderRadius: 20,
-    overflow: "hidden",
-    margin: 12,
-  },
-  videoPlaceholder: {
-    width: "100%",
-    height: "100%",
-    backgroundColor: "#000",
-  },
-  overlayTop: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    padding: 16,
-  },
-  cameraInfo: {
-    flex: 1,
-  },
-  signalIndicator: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 4,
-  },
-  cameraName: {
-    color: "#ffffff",
-    fontSize: 16,
-    fontWeight: "600",
-    marginBottom: 2,
-  },
-  dateTime: {
-    color: "#ffffff",
-    fontSize: 12,
-    opacity: 0.8,
-  },
-  topRightControls: {
-    flexDirection: "row",
-    gap: 8,
-  },
-  overlayBottom: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 16,
-    backgroundColor: "rgba(0,0,0,0.5)",
-  },
-  playbackControls: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-  },
-  controlButton: {
-    padding: 8,
-  },
-  playButton: {
-    backgroundColor: "rgba(255,255,255,0.2)",
-    borderRadius: 20,
-    padding: 8,
-  },
-  timeText: {
-    color: "#ffffff",
-    fontSize: 14,
-    fontWeight: "500",
-  },
-  liveIndicator: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-  },
-  liveDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: "#ff4444",
-  },
-  liveText: {
-    color: "#ffffff",
-    fontSize: 12,
-    fontWeight: "500",
-  },
-});
