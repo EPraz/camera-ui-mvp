@@ -11,7 +11,7 @@ export const useWindowSizeClass = () => {
   const { width, height } = useWindowDimensions();
   const isPortrait = height >= width;
 
-  let sizeClass: "compact" | "medium" | "expanded";
+  let sizeClass: "compact" | "medium" | "expanded" | "tablet";
   if (width >= 1024) sizeClass = "expanded";
   else if (width >= 600) sizeClass = "medium";
   else sizeClass = "compact";

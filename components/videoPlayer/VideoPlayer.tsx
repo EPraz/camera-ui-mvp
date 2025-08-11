@@ -2,19 +2,33 @@ import { AnimatedSegment } from "@/components/ui";
 import { EventItemProps, TabProps, tabs } from "@/constants";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
-import {Image,StyleSheet,Text,TextInput,TouchableOpacity,View,} from "react-native";
-
+import {
+  Image,
+  Modal,
+  StatusBar,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 type VideoPlayerProps = {
   selectedEvent: EventItemProps;
+  onPrev?: () => void;
+  onNext?: () => void;
 };
 
-export function VideoPlayer({ selectedEvent }: VideoPlayerProps) {
+export default function VideoPlayer({
+  selectedEvent,
+  onPrev,
+  onNext,
+}: VideoPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(true);
   const [currentTime, setCurrentTime] = useState("01:03");
   const [totalTime, setTotalTime] = useState("02:08");
   const [activeTab, setActiveTab] = useState("all");
   const [query, setQuery] = useState("");
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const handleSearch = () => {
     console.log("Searching:", query, "tab:", activeTab);
@@ -23,7 +37,7 @@ export function VideoPlayer({ selectedEvent }: VideoPlayerProps) {
   return (
     <View className="flex-1 bg-gray-100">
       {/* Top Bar (Desktop only) */}
-      <View className="hidden md:flex flex-col xl:flex-row xl:justify-between xl:items-center px-4 py-3 gap-3 ">
+      <View className="hidden md:flex flex-col xl:flex-row xl:justify-between xl:items-center px-4 py-3 gap-3">
         <View className="flex-1">
           <AnimatedSegment<TabProps>
             items={tabs}
@@ -64,11 +78,24 @@ export function VideoPlayer({ selectedEvent }: VideoPlayerProps) {
 
       {/* Navigation buttons */}
       <View className="flex-row justify-between items-center px-4 py-3 rounded-xl">
-        <TouchableOpacity className="flex-row items-center gap-1">
+        <TouchableOpacity
+          className="flex-row items-center gap-1"
+          onPress={onPrev}
+          disabled={!onPrev}
+          style={!onPrev ? { opacity: 0.4 } : undefined}
+        >
           <Ionicons name="chevron-back" size={16} color="#666" />
-          <Text className="text-sm text-gray-600 font-medium">Home</Text>
+          <Text className="text-sm text-gray-600 font-medium">
+            Previous Device
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity className="flex-row items-center gap-1">
+
+        <TouchableOpacity
+          className="flex-row items-center gap-1"
+          onPress={onNext}
+          disabled={!onNext}
+          style={!onNext ? { opacity: 0.4 } : undefined}
+        >
           <Text className="text-sm text-gray-600 font-medium">Next Device</Text>
           <Ionicons name="chevron-forward" size={16} color="#666" />
         </TouchableOpacity>
@@ -77,15 +104,13 @@ export function VideoPlayer({ selectedEvent }: VideoPlayerProps) {
       {/* Video Player container */}
       <View className="flex-1 relative rounded-2xl overflow-hidden mx-3 my-3">
         <Image
-          source={{
-            uri: selectedEvent.thumbnail,
-          }}
+          source={{ uri: selectedEvent.thumbnail }}
           className="w-full h-full bg-black"
           resizeMode="contain"
         />
 
         {/* Overlay Top */}
-        <View className="absolute top-0 left-0 right-0 flex-row justify-between items-start p-4">
+        <View className="absolute top-0 left-0 right-0 flex-row justify-between items-start p-4 z-50">
           <View className="flex-1">
             <View className="flex-row items-center mb-1">
               <Ionicons name="wifi" size={16} color="#fff" />
@@ -102,7 +127,12 @@ export function VideoPlayer({ selectedEvent }: VideoPlayerProps) {
             <TouchableOpacity className="p-2">
               <Ionicons name="calendar" size={20} color="#fff" />
             </TouchableOpacity>
-            <TouchableOpacity className="p-2">
+
+            {/* Expand / Contract */}
+            <TouchableOpacity
+              className="p-2"
+              onPress={() => setIsFullscreen(true)}
+            >
               <Ionicons name="expand" size={20} color="#fff" />
             </TouchableOpacity>
           </View>
@@ -144,6 +174,78 @@ export function VideoPlayer({ selectedEvent }: VideoPlayerProps) {
           </View>
         </View>
       </View>
+
+      {/* Fullscreen Modal */}
+      <Modal
+        visible={isFullscreen}
+        animationType="fade"
+        onRequestClose={() => setIsFullscreen(false)}
+        transparent
+      >
+        <StatusBar hidden />
+        <View className="flex-1 bg-black">
+          {/* Top controls in fullscreen */}
+          <View className="absolute top-0 left-0 right-0 p-4 flex-row justify-between items-center z-50">
+            <Text className="text-white font-semibold">
+              {selectedEvent.camera}
+            </Text>
+            <TouchableOpacity
+              onPress={() => setIsFullscreen(false)}
+              className="p-2"
+            >
+              {/* Ícono inverso */}
+              <Ionicons name="contract" size={22} color="#fff" />
+            </TouchableOpacity>
+          </View>
+
+          <Image
+            source={{ uri: selectedEvent.thumbnail }}
+            className="w-full h-full"
+            resizeMode="contain"
+          />
+
+          {/* Bottom controls in fullscreen (mismos que abajo) */}
+          <View className="absolute bottom-0 left-0 right-0 bg-black/60 p-4 flex-row items-center justify-center gap-4">
+            <TouchableOpacity
+              className="p-2"
+              onPress={onPrev}
+              disabled={!onPrev}
+              style={!onPrev ? { opacity: 0.4 } : undefined}
+            >
+              <Ionicons name="chevron-back" size={22} color="#fff" />
+            </TouchableOpacity>
+
+            <TouchableOpacity className="p-2">
+              <Ionicons name="volume-high" size={22} color="#fff" />
+            </TouchableOpacity>
+            <TouchableOpacity className="p-2">
+              <Ionicons name="play-skip-back" size={22} color="#fff" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="bg-white/20 p-2 rounded-full"
+              onPress={() => setIsPlaying(!isPlaying)}
+            >
+              <Ionicons
+                name={isPlaying ? "pause" : "play"}
+                size={26}
+                color="#fff"
+              />
+            </TouchableOpacity>
+            <TouchableOpacity className="p-2">
+              <Ionicons name="play-skip-forward" size={22} color="#fff" />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              className="p-2"
+              onPress={onNext}
+              disabled={!onNext}
+              style={!onNext ? { opacity: 0.4 } : undefined}
+            >
+              <Ionicons name="chevron-forward" size={22} color="#fff" />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
