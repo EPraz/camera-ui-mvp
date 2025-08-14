@@ -10,7 +10,8 @@
     "web": "expo start --web",
     "lint": "expo lint",
     "build": "expo export --platform web",
-    "preview": "npx serve -s dist -l 3000"
+    "preview": "npx serve -s dist -l 3000",
+    "start:web": "npx serve -s dist -l ${PORT:-3000}"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
