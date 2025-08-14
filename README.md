@@ -1,83 +1,84 @@
 # 📹 CamViewer – Monitor & Playback App
 
-Aplicación móvil y web para **monitoreo y reproducción de cámaras en tiempo real**, desarrollada con **React Native (Expo)** y enfocada en ofrecer una experiencia fluida, moderna y optimizada tanto en **modo móvil** como en **modo escritorio**.
+Mobile and web application for **real-time camera monitoring and playback**, built with **React Native (Expo)**, designed to provide a smooth, modern, and optimized experience on both **mobile** and **desktop** modes.
 
-Diseñada como proyecto de portafolio para demostrar habilidades en **desarrollo cross-platform**, arquitectura modular y uso de librerías modernas para UI y navegación.
-
----
-
-## 🚀 Características actuales (MVP)
-
-- **UI responsiva** adaptada para dispositivos móviles y pantallas grandes.
-- **Bottom Navigation Bar** y **Sidebar** inteligente para desktop/tablet.
-- **Sección Timeline** para navegación de clips recientes. Deshabilitada en el momento.
-- **Pantalla de Coming Soon** para secciones en construcción.
-- Navegación animada con **transiciones suaves** al cambiar de pantallas.
-- Implementación de estilos con **NativeWind (TailwindCSS)** para rapidez y consistencia.
-- **Feed Section** para ver todas las cameras disponibles
-- **VideoPlayer Section** para ver la camera seleccionada, y expandible para pantalla completa
-- **Feed Section Menu** permite filtrar, agregar y eliminar mockups de cameras actuales
+Created as a portfolio project to showcase skills in **cross-platform development**, modular architecture, and the use of modern libraries for UI and navigation.
 
 ---
 
-## 🛠️ Tecnologías utilizadas
+## 🚀 Current Features (MVP)
+
+- **Responsive UI** adapted for mobile devices and large screens.
+- **Bottom Navigation Bar** and intelligent **Sidebar** for desktop/tablet.
+- **Timeline section** for navigating recent clips (currently disabled).
+- **Coming Soon screen** for sections under construction.
+- Animated navigation with **smooth transitions** between screens.
+- Styling with **NativeWind (TailwindCSS)** for speed and consistency.
+- **Feed Section** to view all available cameras.
+- **VideoPlayer Section** to view the selected camera, expandable to full screen.
+- **Feed Section Menu** allows filtering, adding, and removing camera mockups.
+
+---
+
+## 🛠️ Technologies Used
 
 - **Frontend:** React Native (Expo)
-- **Estilos:** NativeWind (TailwindCSS para React Native) + styles
-- **Navegación:** Expo Router, React Navigation
-- **Iconografía:** Ionicons
-- **Utilidades:** React Native Safe Area Context, hooks personalizados
-- **Animaciones:** Transiciones integradas en `expo-router` con `slide_from_right`
+- **Styling:** NativeWind (TailwindCSS for React Native) + custom styles
+- **Navigation:** Expo Router, React Navigation
+- **Icons:** Ionicons
+- **Utilities:** React Native Safe Area Context, custom hooks
+- **Animations:** Built-in `expo-router` transitions with `slide_from_right`
 
 ---
 
-## 🗺️ Futuras implementaciones
+## 🗺️ Future Implementations
 
-Si se continúa el desarrollo, se planea añadir:
+If development continues, the following features are planned:
 
-- **Autenticación segura** (JWT / OAuth2).
-- **Conexión en tiempo real** con cámaras (WebRTC o RTSP).
-- **Alertas push** en eventos detectados.
-<!-- - **Gestión de usuarios y roles**.  -->
-- **Reproducción de clips grabados** con filtros por fecha y hora.
-<!-- - **Modo offline** para revisar grabaciones descargadas. -->
-- **Integración con almacenamiento en la nube** (AWS S3, GCP Storage, etc.).
+- **Secure authentication** (JWT / OAuth2)
+- **Real-time camera streaming** (WebRTC or RTSP)
+- **Push notifications** for detected events
+<!-- - **User and role management** -->
+- **Recorded clip playback** with filters by date and time
+<!-- - **Offline mode** for reviewing downloaded recordings -->
+- **Cloud storage integration** (AWS S3, GCP Storage, etc.)
 
 ---
 
-## 📸 Capturas de pantalla
+## 📸 Screenshots
 
-### Vista móvil
+### Mobile View
 
 <p align="center">
-   <img src="./assets/images/mobileCapture.jpeg" alt="Vista móvil" width="300" /> &nbsp;&nbsp;&nbsp;
-   <img src="./assets/images/mobileFeedMenu.jpeg" alt="Vista móvil" width="300" /> &nbsp;&nbsp;&nbsp;
-   <img src="./assets/images/mobileInConstructionPage.jpeg" alt="Vista móvil" width="300" />
+   <img src="./assets/images/mobileCapture.jpeg" alt="Mobile view" width="300" /> &nbsp;&nbsp;&nbsp;
+   <img src="./assets/images/mobileFeedMenu.jpeg" alt="Mobile view" width="300" /> &nbsp;&nbsp;&nbsp;
+   <img src="./assets/images/mobileInConstructionPage.jpeg" alt="Mobile view" width="300" />
 </p>
 
-### Vista escritorio
+### Desktop View
 
 <p align="center">
-   <img src="./assets/images/desktopCapture.png" alt="Vista escritorio" width="600" />  &nbsp;&nbsp;&nbsp;
-   <img src="./assets/images/desktopInContructionPage.png" alt="Vista escritorio" width="600" />
+   <img src="./assets/images/desktopCapture.png" alt="Desktop view" width="600" /> &nbsp;&nbsp;&nbsp;
+   <img src="./assets/images/desktopInContructionPage.png" alt="Desktop view" width="600" />
 </p>
+
 ---
 
-## ⚙️ Instalación y uso
+## ⚙️ Installation & Usage
 
 ```bash
-# Clonar el repositorio
+# Clone the repository
 git clone https://github.com/EPraz/camera-ui-mvp.git
 
-# Entrar al proyecto
+# Enter the project folder
 cd camera-ui-mvp
 
-# Instalar dependencias
+# Install dependencies
 npm install
 
-# Ejecutar en desarrollo
+# Run in development mode
 npx expo start
 
-# Ejecutar en web
+# Run in web mode
 npx expo start --web
 ```

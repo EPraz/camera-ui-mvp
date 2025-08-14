@@ -34,10 +34,10 @@ const DeleteConfirmationModal = ({
           }}
         >
           <Text className="text-base font-semibold text-neutral-900">
-            ¿Eliminar cámara?
+            Delete camera?
           </Text>
           <Text className="mt-2 text-sm text-neutral-600">
-            Esta acción no se puede deshacer.
+            This action can not be undone.
           </Text>
 
           <View className="mt-4 flex-row justify-end gap-2">
@@ -45,7 +45,7 @@ const DeleteConfirmationModal = ({
               onPress={() => setShowConfirm(false)}
               className="rounded-full px-4 py-2 bg-gray-100 active:bg-gray-200"
             >
-              <Text className="text-sm text-neutral-800">Cancelar</Text>
+              <Text className="text-sm text-neutral-800">Cancel</Text>
             </Pressable>
             <Pressable
               onPress={() => {
@@ -54,7 +54,7 @@ const DeleteConfirmationModal = ({
               }}
               className="rounded-full px-4 py-2 bg-red-600 active:bg-red-700"
             >
-              <Text className="text-sm text-white">Eliminar</Text>
+              <Text className="text-sm text-white">Delete</Text>
             </Pressable>
           </View>
         </Pressable>

@@ -49,7 +49,7 @@ const DeleteMenuModal = ({
             >
               <Ionicons name="trash-outline" size={18} color="#dc2626" />
               <Text className="text-sm font-medium text-neutral-900">
-                Eliminar
+                Delete
               </Text>
             </Pressable>
           </View>
