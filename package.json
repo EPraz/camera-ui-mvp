@@ -9,9 +9,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "build": "expo export --platform web",
-    "preview": "npx serve -s dist -l 8080",
-    "start:web": "npx serve -s dist -l ${PORT:-8080}"
+    "build": "expo export --platform web"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
