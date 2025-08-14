@@ -55,5 +55,7 @@
     "typescript": "~5.8.3"
   },
   "private": true,
-  "engines": { "node": ">=18" }
+  "engines": {
+    "node": ">=18"
+  }
 }
