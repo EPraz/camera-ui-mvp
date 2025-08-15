@@ -104,7 +104,11 @@ export default function VideoPlayer({
       {/* Video Player container */}
       <View className="flex-1 relative rounded-2xl overflow-hidden mx-3 my-3">
         <Image
-          source={{ uri: selectedEvent.thumbnail }}
+          source={
+            selectedEvent?.thumbnail
+              ? { uri: selectedEvent.thumbnail }
+              : require("@/assets/images/elementor-placeholder-image.png") // o un color de fondo
+          }
           className="w-full h-full bg-black"
           resizeMode="contain"
         />
@@ -147,7 +151,11 @@ export default function VideoPlayer({
             <Text className="text-white text-sm font-medium">
               {currentTime}/{totalTime}
             </Text>
-            <TouchableOpacity className="p-2">
+            <TouchableOpacity
+              className="p-2"
+              onPress={onPrev}
+              disabled={!onPrev}
+            >
               <Ionicons name="play-skip-back" size={20} color="#fff" />
             </TouchableOpacity>
             <TouchableOpacity
@@ -160,7 +168,11 @@ export default function VideoPlayer({
                 color="#fff"
               />
             </TouchableOpacity>
-            <TouchableOpacity className="p-2">
+            <TouchableOpacity
+              className="p-2"
+              onPress={onNext}
+              disabled={!onNext}
+            >
               <Ionicons name="play-skip-forward" size={20} color="#fff" />
             </TouchableOpacity>
             <TouchableOpacity className="p-2">
@@ -218,7 +230,11 @@ export default function VideoPlayer({
             <TouchableOpacity className="p-2">
               <Ionicons name="volume-high" size={22} color="#fff" />
             </TouchableOpacity>
-            <TouchableOpacity className="p-2">
+            <TouchableOpacity
+              className="p-2"
+              onPress={onPrev}
+              disabled={!onPrev}
+            >
               <Ionicons name="play-skip-back" size={22} color="#fff" />
             </TouchableOpacity>
             <TouchableOpacity
@@ -231,7 +247,11 @@ export default function VideoPlayer({
                 color="#fff"
               />
             </TouchableOpacity>
-            <TouchableOpacity className="p-2">
+            <TouchableOpacity
+              className="p-2"
+              onPress={onNext}
+              disabled={!onNext}
+            >
               <Ionicons name="play-skip-forward" size={22} color="#fff" />
             </TouchableOpacity>
 

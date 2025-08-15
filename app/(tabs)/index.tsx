@@ -12,7 +12,7 @@ import {
 } from "@/constants";
 import { useWindowSizeClass } from "@/hooks";
 import React, { useState } from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import {
   SafeAreaView,
   useSafeAreaInsets,
@@ -28,44 +28,64 @@ const HomeScreen: React.FC = () => {
   const mobileBottomPad = BASE_BOTTOM_BAR_HEIGHT + insets.bottom;
 
   const handleSelectedEvent = (item: EventItemProps) => {
-    const i = allEvents.findIndex((e) => e.id === item.id);
-    if (i >= 0) setSelectedIndex(i);
-    else {
-      setAllEvents((prev) => [...prev, item]);
-      setSelectedIndex(allEvents.length - 1);
-    }
+    setAllEvents((prev) => {
+      const i = prev.findIndex((e) => e.id === item.id);
+      if (i >= 0) {
+        setSelectedIndex(i);
+        return prev;
+      }
+      // si no existe, lo agregamos y seleccionamos el nuevo
+      const next = [...prev, item];
+      setSelectedIndex(next.length - 1);
+      return next;
+    });
   };
 
   const handleAddCamera = (newItem: EventItemProps) => {
-    setAllEvents((prev) => [...prev, newItem]);
-    setSelectedIndex(allEvents.length - 1); // opcional: seleccionar la nueva (ultima)
+    setAllEvents((prev) => {
+      const next = [...prev, newItem];
+      setSelectedIndex(next.length - 1); // seleccionar el recién agregado
+      return next;
+    });
   };
 
   const handleDeleteCamera = (id: string) => {
     setAllEvents((prev) => {
+      const idxToDelete = prev.findIndex((e) => e.id === id);
+      if (idxToDelete === -1) return prev;
+
       const next = prev.filter((e) => e.id !== id);
-      // reajusta selección si borraste el seleccionado
-      if (prev[selectedIndex]?.id === id) {
-        return next.length
-          ? (setSelectedIndex(allEvents.length - 1), next)
-          : (setSelectedIndex(allEvents.length - 1), next);
+
+      if (next.length === 0) {
+        setSelectedIndex(0);
+        return next;
       }
-      // mantiene índice coherente
-      const idx = next.findIndex((e) => e.id === selectedEvent?.id);
-      if (idx >= 0) setSelectedIndex(idx);
+
+      // si borramos el seleccionado, elegir vecino “más cercano”
+      if (idxToDelete === selectedIndex) {
+        const newIdx = Math.min(idxToDelete, next.length - 1); // mismo índice si existe, si no el anterior
+        setSelectedIndex(newIdx);
+      } else if (idxToDelete < selectedIndex) {
+        // si se borró un elemento antes del seleccionado, el índice se corre -1
+        setSelectedIndex((prevIdx) => Math.max(prevIdx - 1, 0));
+      } // si se borró después, el índice actual sigue válido
+
       return next;
     });
   };
 
   const handleNext = () => {
-    setSelectedIndex((prev) => (prev + 1) % Math.max(allEvents.length, 1));
+    setSelectedIndex((prev) => {
+      const len = Math.max(allEvents.length, 1);
+      return allEvents.length ? (prev + 1) % len : 0;
+    });
   };
+
   const handlePrev = () => {
-    setSelectedIndex(
-      (prev) =>
-        (prev - 1 + Math.max(allEvents.length, 1)) %
-        Math.max(allEvents.length, 1)
-    );
+    setSelectedIndex((prev) => {
+      const len = Math.max(allEvents.length, 1);
+      return allEvents.length ? (prev - 1 + len) % len : 0;
+    });
   };
 
   return (
@@ -91,12 +111,20 @@ const HomeScreen: React.FC = () => {
               className="flex-1 bg-white rounded-[12px] overflow-hidden shadow-md"
               style={{ elevation: 4 }}
             >
-              <VideoPlayer
-                selectedEvent={selectedEvent}
-                onNext={handleNext}
-                onPrev={handlePrev}
-              />
-              <Timeline />
+              {selectedEvent ? (
+                <>
+                  <VideoPlayer
+                    selectedEvent={selectedEvent}
+                    onNext={handleNext}
+                    onPrev={handlePrev}
+                  />
+                  <Timeline />
+                </>
+              ) : (
+                <View className="flex-1 items-center justify-center">
+                  <Text className="text-gray-500">No cameras available</Text>
+                </View>
+              )}
             </View>
           </View>
 

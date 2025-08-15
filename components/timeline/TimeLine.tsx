@@ -67,7 +67,7 @@ export default function Timeline() {
       {DISABLED && (
         <View className="items-center pb-3">
           <Text className="text-xs text-gray-400">
-            Próximamente: explora clips de las últimas 24 h
+            Coming soon: explore clips of last 24h
           </Text>
         </View>
       )}

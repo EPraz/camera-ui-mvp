@@ -51,18 +51,40 @@ export default function EventFeed({
   }, [events, cameraQuery]);
 
   const addCamera = () => {
+    // plantillas para el random (thumbnail + type)
+    const templates: Array<Pick<EventItemProps, "thumbnail" | "type">> = [
+      {
+        thumbnail:
+          "https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg",
+        type: "motion",
+      },
+      {
+        thumbnail:
+          "https://images.pexels.com/photos/2086676/pexels-photo-2086676.jpeg",
+        type: "motion",
+      },
+      {
+        thumbnail:
+          "https://images.pexels.com/photos/280229/pexels-photo-280229.jpeg",
+        type: "doorbell",
+      },
+    ];
+    const pick = templates[Math.floor(Math.random() * templates.length)];
+
     const nextId = (
       Math.max(0, ...events.map((e) => Number(e.id))) + 1
     ).toString();
+
     const time = new Date().toLocaleTimeString("en-US", { hour12: true });
+
     const newItem: EventItemProps = {
       id: nextId,
       camera: `New Camera ${nextId}`,
       time,
-      thumbnail:
-        "https://images.pexels.com/photos/280229/pexels-photo-280229.jpeg",
-      type: "motion",
+      thumbnail: pick.thumbnail,
+      type: pick.type,
     };
+
     onAddCamera(newItem);
     setShowMore(false);
   };
@@ -123,10 +145,10 @@ export default function EventFeed({
           <View className="flex-1 items-center justify-center px-6">
             <Ionicons name="search" size={36} color="#9CA3AF" />
             <Text className="mt-3 text-sm text-gray-500 text-center">
-              No hay resultados para “{cameraQuery}”.
+              No results for “{cameraQuery}”.
             </Text>
             <Text className="text-xs text-gray-400 mt-1">
-              Ajusta el filtro o limpia la búsqueda.
+              Adjust the filter or clear the search.
             </Text>
           </View>
         )}
@@ -156,7 +178,7 @@ export default function EventFeed({
             >
               <Ionicons name="camera-outline" size={18} color="#111" />
               <Text className="text-sm font-medium text-neutral-900">
-                Agregar cámara
+                Add camera
               </Text>
             </Pressable>
           </Pressable>
@@ -184,7 +206,7 @@ export default function EventFeed({
             }}
           >
             <Text className="mb-2 text-xs font-semibold text-neutral-700">
-              Filtrar por cámara
+              Filter by name
             </Text>
 
             <View className="flex-row items-center rounded-full bg-gray-100 px-3 py-2">
@@ -212,13 +234,13 @@ export default function EventFeed({
                 }}
                 className="rounded-full px-3 py-2 active:bg-gray-100"
               >
-                <Text className="text-sm text-red-700">Limpiar</Text>
+                <Text className="text-sm text-red-700">Clear</Text>
               </Pressable>
               <Pressable
                 onPress={() => setShowFilter(false)}
                 className="rounded-full px-3 py-2 active:bg-gray-100"
               >
-                <Text className="text-sm text-neutral-700">Cerrar</Text>
+                <Text className="text-sm text-neutral-700">Close</Text>
               </Pressable>
             </View>
           </Pressable>
