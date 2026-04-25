@@ -24,8 +24,8 @@ export default function VideoPlayer({
   onNext,
 }: VideoPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(true);
-  const [currentTime, setCurrentTime] = useState("01:03");
-  const [totalTime, setTotalTime] = useState("02:08");
+  const [currentTime] = useState("01:03");
+  const [totalTime] = useState("02:08");
   const [activeTab, setActiveTab] = useState("all");
   const [query, setQuery] = useState("");
   const [isFullscreen, setIsFullscreen] = useState(false);

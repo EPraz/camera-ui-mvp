@@ -52,7 +52,7 @@ export default function EventFeed({
 
   const addCamera = () => {
     // plantillas para el random (thumbnail + type)
-    const templates: Array<Pick<EventItemProps, "thumbnail" | "type">> = [
+    const templates: Pick<EventItemProps, "thumbnail" | "type">[] = [
       {
         thumbnail:
           "https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg",

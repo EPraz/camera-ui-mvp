@@ -32,7 +32,7 @@ const Header = ({
       duration: 300,
       useNativeDriver: true,
     }).start();
-  }, [isMenuOpen]);
+  }, [isMenuOpen, slideAnim]);
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
